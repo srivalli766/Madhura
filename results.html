@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AstroCare - Assessment Results</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🚀 AstroCare</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Health History</a>
+        <a href="/dashboard">Dashboard</a>
+    </nav>
+
+    <div class="status">● ASSESSMENT COMPLETE</div>
+</header>
+
+<section class="dashboard">
+
+    <h1>🚀 Health Assessment Results</h1>
+
+    <p class="subtitle">
+        Your submitted measurements have been assessed.
+    </p>
+
+    <div class="results">
+
+        <h2>Health Measurement Summary</h2>
+
+        <div class="result-grid">
+
+            <div class="result-card">
+                ❤️ Heart Rate
+                <h3>{{ health_data.heart_rate }} BPM</h3>
+            </div>
+
+            <div class="result-card">
+                🩺 Blood Pressure
+                <h3>{{ health_data.systolic }}/{{ health_data.diastolic }}</h3>
+            </div>
+
+            <div class="result-card">
+                🌡️ Temperature
+                <h3>{{ health_data.temperature }} °C</h3>
+            </div>
+
+            <div class="result-card">
+                🩸 Blood Glucose
+                <h3>{{ health_data.glucose }} mg/dL</h3>
+            </div>
+
+            <div class="result-card">
+                😴 Sleep
+                <h3>{{ health_data.sleep }} Hours</h3>
+            </div>
+
+            <div class="result-card">
+                🧠 Mood
+                <h3>{{ health_data.mood }}</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="results">
+
+        <h2>🤖 Rule-Based Health Screening</h2>
+
+        <h3>Alerts</h3>
+
+        {% for alert in assessment.alerts %}
+            <div class="alert-box">⚠️ {{ alert }}</div>
+        {% else %}
+            <p>No screening alerts generated.</p>
+        {% endfor %}
+
+        <h3>Recommendations</h3>
+
+        {% for recommendation in assessment.recommendations %}
+            <p>{{ recommendation }}</p>
+        {% endfor %}
+
+    </div>
+
+    {% if space_assessment %}
+
+    <div class="results">
+
+        <h2>🚀 Spaceflight Health Risk Assessment</h2>
+
+        <h3>Overall Status</h3>
+
+        <p>{{ space_assessment.status }}</p>
+
+        <h3>Risk Screening Results</h3>
+
+        {% for result in space_assessment.results %}
+
+        <div class="result-card">
+
+            <h3>{{ result.category }}</h3>
+
+            <p><strong>Status:</strong> {{ result.status }}</p>
+
+            <p><strong>Observation:</strong> {{ result.observation }}</p>
+
+            {% if result.recommendation %}
+                <p><strong>Recommendation:</strong>
+                    {{ result.recommendation }}</p>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+        <h3>Screening Alerts</h3>
+
+        {% for alert in space_assessment.alerts %}
+            <div class="alert-box">⚠️ {{ alert }}</div>
+        {% else %}
+            <p>No screening alerts generated.</p>
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    <p class="notice">
+        AstroCare is an experimental screening prototype.
+        Results are not medical diagnoses or validated astronaut
+        health predictions.
+    </p>
+
+    <div style="text-align:center; margin:30px;">
+        <a href="/dashboard" class="button">
+            ← Back to Dashboard
+        </a>
+
+        <a href="/history" class="button">
+            View Health History →
+        </a>
+    </div>
+
+</section>
+
+</body>
+</html>

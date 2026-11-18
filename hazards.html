@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AstroCare - Spaceflight Hazards</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚀 NASA Spaceflight Hazards</h1>
+
+    <p>Monitor the five major hazards affecting astronaut health
+       during space missions.</p>
+
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/dashboard">Dashboard</a> |
+        <a href="/history">Health History</a>
+    </nav>
+
+    <h2>Five Major Spaceflight Hazards</h2>
+
+    <div class="overview-grid">
+
+        <div class="overview-card">
+            <h3>☢️ Space Radiation</h3>
+            <span class="risk-badge high">HIGH PRIORITY</span>
+            <p>Exposure to radiation in space can affect astronaut health.</p>
+           <details>
+    <summary>Explore Hazard</summary>
+
+    <p><b>Monitoring focus:</b> Radiation exposure during space missions.</p>
+
+    <p><b>Health concern:</b> Increased long-term health risks.</p>
+
+    <p><b>Safety approach:</b> Radiation monitoring and spacecraft shielding.</p>
+
+    <hr>
+
+    <h4>☢️ Radiation Exposure Monitor</h4>
+
+    <div class="radiation-monitor">
+        <h2>0.35 mSv</h2>
+        <p>Illustrative Exposure Reading</p>
+
+        <span class="demo-status">DEMO DATA</span>
+
+        <p>Exposure monitoring requires validated radiation sensors.</p>
+    </div>
+
+</details>
+        </div>
+
+        <div class="overview-card">
+            <h3>🧠 Isolation and Confinement</h3>
+            <span class="risk-badge moderate">MODERATE PRIORITY</span>
+            <p>Long missions can affect psychological well-being.</p>
+            <details>
+                <summary>Explore Hazard</summary>
+                <p><b>Monitoring focus:</b> Mood and sleep records.</p>
+                <p><b>Health concern:</b> Stress and psychological challenges.</p>
+                <p><b>Safety approach:</b> Crew support and regular communication.</p>
+            <hr>
+
+<h4>🧑‍🚀 Latest Astronaut Health Record</h4>
+
+{% if latest_record %}
+    <p><b>Recorded Mood:</b> {{ latest_record['mood'] }}</p>
+    <p><b>Sleep Duration:</b> {{ latest_record['sleep'] }} hours</p>
+{% else %}
+    <p>No health records available yet.</p>
+{% endif %}
+            </details>
+        </div>
+
+        <div class="overview-card">
+            <h3>🌍 Distance from Earth</h3>
+            <span class="risk-badge moderate">MODERATE PRIORITY</span>
+            <p>Distance can delay communication and medical assistance.</p>
+           <details>
+    <summary>Explore Hazard</summary>
+
+    <p><b>Monitoring focus:</b> Communication delays and medical support availability.</p>
+
+    <p><b>Health concern:</b> Delayed communication with Earth-based medical teams.</p>
+
+    <p><b>Safety approach:</b> Onboard medical resources and emergency planning.</p>
+
+    <hr>
+
+    <h4>🌍 Mission Communication Monitor</h4>
+
+    <div class="communication-monitor">
+
+        <h2>DEMO MODE</h2>
+
+        <p><b>Communication Status:</b> Simulated</p>
+
+        <p><b>Signal Status:</b> Not Connected</p>
+
+        <p><b>Medical Support:</b> Onboard Support Available</p>
+
+        <p class="demo-status">ILLUSTRATIVE DATA</p>
+
+    </div>
+</details>
+        </div>
+
+        <div class="overview-card">
+            <h3>🛰️ Gravity Fields</h3>
+            <span class="risk-badge moderate">MODERATE PRIORITY</span>
+            <p>Microgravity and changes in gravity affect the human body.</p>
+        <details>
+    <summary>Explore Hazard</summary>
+
+    <p><b>Monitoring focus:</b> Changes in astronaut health during microgravity exposure.</p>
+
+    <p><b>Health concern:</b> Bone density loss, muscle weakening and cardiovascular changes.</p>
+
+    <p><b>Safety approach:</b> Regular exercise and health monitoring.</p>
+
+    <hr>
+
+    <h4>🛰️ Microgravity Health Monitor</h4>
+
+    <div class="gravity-monitor">
+
+        <h2>Health Monitoring</h2>
+
+        {% if latest_record %}
+            <p><b>Heart Rate:</b> {{ latest_record['heart_rate'] }} BPM</p>
+            <p><b>Blood Pressure:</b>
+                {{ latest_record['systolic'] }}/{{ latest_record['diastolic'] }}
+            </p>
+            <p><b>Temperature:</b> {{ latest_record['temperature'] }} °C</p>
+        {% else %}
+            <p>No health records available yet.</p>
+        {% endif %}
+
+        <span class="demo-status">HEALTH RECORD DATA</span>
+
+    </div>
+</details>
+        </div>
+
+        <div class="overview-card">
+            <h3>🌡️ Hostile Environments</h3>
+            <span class="risk-badge high">HIGH PRIORITY</span>
+
+</a>
+            <p>Spacecraft environments require continuous monitoring.</p>
+            <details>
+                <summary>Explore Hazard</summary>
+                <p><b>Monitoring focus:</b> Temperature, humidity and air quality.</p>
+                <p><b>Health concern:</b> Environmental conditions affecting crew safety.</p>
+                <p><b>Safety approach:</b> Environmental monitoring and life-support systems.</p>
+            </details>
+
+<a href="/environment" class="hazard-link">
+    View Environment Monitoring →
+</a>
+        </div>
+
+    </div>
+
+    <div class="notice">
+        <b>Important:</b> This is a prototype monitoring interface.
+        It does not receive live NASA sensor data or provide validated
+        mission safety assessments.
+    </div>
+
+</div>
+
+</body>
+</html>

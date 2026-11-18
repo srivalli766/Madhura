@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AstroCare | Mission Login</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+
+    <div class="login-brand">
+        <div class="rocket-icon">🚀</div>
+        <h1>AstroCare</h1>
+        <p>ASTRONAUT HEALTH MONITORING SYSTEM</p>
+    </div>
+
+    <div class="login-card">
+
+        <h2>Mission Access</h2>
+        <p class="login-description">
+            Sign in to access your astronaut dashboard.
+        </p>
+
+        {% if message %}
+            <div class="login-message">{{ message }}</div>
+        {% endif %}
+
+        <form action="/login" method="POST">
+
+            <label>USERNAME</label>
+            <input type="text" name="username"
+                   placeholder="Enter your username" required>
+
+            <label>PASSWORD</label>
+            <input type="password" name="password"
+                   placeholder="Enter your password" required>
+
+            <button type="submit">ACCESS MISSION CONTROL →</button>
+
+        </form>
+
+        <div class="login-footer">
+            New astronaut?
+            <a href="/profile">Create an account</a>
+        </div>
+
+    </div>
+
+    <a class="back-home" href="/">← Return to Home</a>
+
+</div>
+{% if message %}
+<div class="toast-message" id="toastMessage">
+    {{ message }}
+</div>
+
+<script>
+    setTimeout(function() {
+        const toast = document.getElementById("toastMessage");
+        if (toast) {
+            toast.style.opacity = "0";
+            setTimeout(() => toast.remove(), 400);
+        }
+    }, 3500);
+</script>
+{% endif %}
+</body>
+</html>

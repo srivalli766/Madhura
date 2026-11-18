@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AstroCare - Environment Monitoring</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🌍 Spacecraft Environment Monitoring</h1>
+
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/dashboard">Dashboard</a> |
+        <a href="/history">History</a> |
+        <a href="/hazards">Spaceflight Hazards</a>
+    </nav>
+
+    <h2>Environmental Sensor Readings</h2>
+
+    <p class="environment-subtitle">
+        Illustrative spacecraft environmental monitoring dashboard
+    </p>
+
+    <div class="overview-grid">
+
+        <div class="overview-card environment-card">
+            <h3>🌡️ Temperature</h3>
+            <h2>22 °C</h2>
+            <div class="environment-status">DEMO VALUE</div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width:55%"></div>
+            </div>
+        </div>
+
+        <div class="overview-card environment-card">
+            <h3>💧 Humidity</h3>
+            <h2>45%</h2>
+            <div class="environment-status">DEMO VALUE</div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width:45%"></div>
+            </div>
+        </div>
+
+        <div class="overview-card environment-card">
+            <h3>🫁 Oxygen Level</h3>
+            <h2>21%</h2>
+            <div class="environment-status">DEMO VALUE</div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width:70%"></div>
+            </div>
+        </div>
+
+        <div class="overview-card environment-card">
+            <h3>🌫️ Carbon Dioxide</h3>
+            <h2>0.1%</h2>
+            <div class="environment-status">DEMO VALUE</div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width:25%"></div>
+            </div>
+        </div>
+
+        <div class="overview-card environment-card">
+            <h3>🍃 Air Quality</h3>
+            <h2>Good</h2>
+            <div class="environment-status">DEMO STATUS</div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width:85%"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="notice">
+        <b>Prototype Notice:</b> All readings and progress bars are
+        illustrative demonstration values. They are not live spacecraft
+        sensor readings or validated safety assessments.
+    </div>
+
+</div>
+
+</body>
+</html>

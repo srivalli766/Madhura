@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AstroCare - Health History</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚀 Health Records History</h1>
+
+    <a href="/">Home</a> |
+    <a href="/dashboard">Dashboard</a>
+
+    <br><br>
+
+    <a href="/download" class="download-btn">
+        📥 Download Health Records (CSV)
+    </a>
+
+    <br><br>
+
+    <!-- TOTAL RECORDS -->
+
+    <div class="chart-card">
+        <h2>📋 Total Health Records</h2>
+        <h1>{{ total_records }}</h1>
+        <p>Measurements stored in AstroCare</p>
+    </div>
+
+    <!-- TREND ANALYSIS -->
+
+    <div class="chart-card">
+
+        <h2>📈 Health Trend Analysis</h2>
+
+        {% if trends %}
+
+            <ul>
+                {% for trend in trends %}
+                    <li>{{ trend }}</li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            <p>No trend information available.</p>
+        {% endif %}
+
+        <p>
+            <small>
+                Trends compare recorded measurements only.
+                They are not medical predictions.
+            </small>
+        </p>
+
+    </div>
+
+    <!-- PREVIOUS RECORDS -->
+
+    <h2>Previous Health Measurements</h2>
+
+    {% if records %}
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>ID</th>
+            <th>Heart Rate</th>
+            <th>Blood Pressure</th>
+            <th>Temperature</th>
+            <th>Glucose</th>
+            <th>Glucose Type</th>
+            <th>Hours Since Meal</th>
+            <th>Sleep</th>
+            <th>Mood</th>
+        </tr>
+
+        {% for record in records %}
+
+        <tr>
+            <td>{{ record['id'] }}</td>
+            <td>{{ record['heart_rate'] }}</td>
+            <td>{{ record['systolic'] }}/{{ record['diastolic'] }}</td>
+            <td>{{ record['temperature'] }} °C</td>
+            <td>{{ record['glucose'] }} mg/dL</td>
+            <td>{{ record['glucose_type'] or 'N/A' }}</td>
+            <td>{{ record['hours_since_meal'] if record['hours_since_meal'] is not none else 'N/A' }}</td>
+            <td>{{ record['sleep'] }} hours</td>
+            <td>{{ record['mood'] }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+        <p>No health records available yet.</p>
+
+    {% endif %}
+
+    <!-- HEALTH MONITORING CHARTS -->
+
+    {% if records %}
+
+    <h2>📊 Health Monitoring Charts</h2>
+
+    <div class="chart-card">
+        <h3>Blood Pressure</h3>
+        <canvas id="bpChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Heart Rate</h3>
+        <canvas id="heartChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Temperature</h3>
+        <canvas id="tempChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Blood Glucose</h3>
+        <canvas id="glucoseChart"></canvas>
+    </div>
+
+    <script>
+
+        const records = {{ records | tojson }};
+
+        const labels = records.map(
+            r => "Record " + r.id
+        );
+
+        function createChart(id, label, values) {
+
+            new Chart(document.getElementById(id), {
+
+                type: 'line',
+
+                data: {
+                    labels: labels,
+
+                    datasets: [{
+                        label: label,
+                        data: values,
+                        borderWidth: 2,
+                        tension: 0.3
+                    }]
+                },
+
+                options: {
+                    responsive: true
+                }
+
+            });
+        }
+
+        createChart(
+            'heartChart',
+            'Heart Rate (BPM)',
+            records.map(r => r.heart_rate)
+        );
+
+        createChart(
+            'tempChart',
+            'Temperature (°C)',
+            records.map(r => r.temperature)
+        );
+
+        createChart(
+            'glucoseChart',
+            'Glucose (mg/dL)',
+            records.map(r => r.glucose)
+        );
+
+        createChart(
+            'bpChart',
+            'Systolic Blood Pressure',
+            records.map(r => r.systolic)
+        );
+
+    </script>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AstroCare Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🚀 AstroCare</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Health History</a>
+        <a href="/dashboard">Dashboard</a>
+    </nav>
+
+    <div class="status">● MONITORING SYSTEM</div>
+</header>
+
+<section class="dashboard">
+
+    <h1>Astronaut Health Dashboard</h1>
+
+    <p class="subtitle">
+        Enter your health measurements for a mission health review.
+    </p>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <div class="form-container">
+
+        <h2>Health Assessment</h2>
+
+        <form method="POST">
+
+            <div class="input-grid">
+
+                <div class="input-group">
+                    <label>Heart Rate (BPM)</label>
+                    <input type="number" name="heart_rate"
+                    min="20" max="250" step="1" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Systolic Blood Pressure (mmHg)</label>
+                    <input type="number" name="systolic"
+                    min="50" max="250" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Diastolic Blood Pressure (mmHg)</label>
+                    <input type="number" name="diastolic"
+                    min="30" max="150" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Body Temperature (°C)</label>
+                    <input type="number" name="temperature"
+                    min="30" max="45" step="0.1" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Blood Glucose (mg/dL)</label>
+                    <input type="number" name="glucose"
+                    min="20" max="600" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Glucose Measurement Type</label>
+                    <select name="glucose_type" required>
+                        <option value="">Select measurement type</option>
+                        <option value="before food">Before food</option>
+                        <option value="after food">After food</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Hours Since Last Meal</label>
+                    <input type="number"
+                    name="hours_since_meal"
+                    min="0" max="24" step="0.5" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Sleep Duration (Hours)</label>
+                    <input type="number" name="sleep"
+                    min="0" max="24" step="0.5" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Mental Wellness / Mood</label>
+                    <select name="mood" required>
+                        <option value="">Select Mood</option>
+                        <option value="good">Good</option>
+                        <option value="happy">Happy</option>
+                        <option value="okay">Okay</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="sad">Sad</option>
+                        <option value="anxious">Anxious</option>
+                        <option value="stressed">Stressed</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="button">
+                Submit Health Assessment →
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if health_data %}
+
+        {% if assessment %}
+        <div class="results">
+
+            <h2>🤖 Rule-Based Health Screening</h2>
+
+            <h3>Alerts</h3>
+
+            <ul>
+                {% for alert in assessment.alerts %}
+                    <li>{{ alert }}</li>
+                {% endfor %}
+            </ul>
+
+            <h3>Recommendations</h3>
+
+            <ul>
+                {% for recommendation in assessment.recommendations %}
+                    <li>{{ recommendation }}</li>
+                {% endfor %}
+            </ul>
+
+            <p class="notice">
+                Demo screening only — not a medical diagnosis.
+            </p>
+
+        </div>
+        {% endif %}
+
+        {% if space_assessment %}
+        <div class="results">
+
+            <h2>🚀 Spaceflight Health Risk Assessment</h2>
+
+            <h3>Overall Status</h3>
+            <p>{{ space_assessment.status }}</p>
+
+            <h3>Risk Screening Results</h3>
+
+            {% for result in space_assessment.results %}
+
+                <div class="result-card">
+
+                    <h3>{{ result.category }}</h3>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ result.status }}
+                    </p>
+
+                    <p>
+                        <strong>Observation:</strong>
+                        {{ result.observation }}
+                    </p>
+
+                    {% if result.recommendation %}
+                    <p>
+                        <strong>Recommendation:</strong>
+                        {{ result.recommendation }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+            <h3>Alerts</h3>
+
+            {% for alert in space_assessment.alerts %}
+                <div class="alert-box">
+                    ⚠️ {{ alert }}
+                </div>
+            {% else %}
+                <p>No screening alerts were generated.</p>
+            {% endfor %}
+
+            <p class="notice">
+                Experimental screening only. These results are not
+                medical diagnoses or validated astronaut health predictions.
+            </p>
+
+        </div>
+        {% endif %}
+
+        <div class="results">
+
+            <h2>Health Assessment Summary</h2>
+
+            <p>
+                Your measurements were successfully recorded for this session.
+            </p>
+
+            <div class="result-grid">
+
+                <div class="result-card">
+                    ❤️ Heart Rate
+                    <h3>{{ health_data.heart_rate }} BPM</h3>
+                </div>
+
+                <div class="result-card">
+                    🩺 Blood Pressure
+                    <h3>{{ health_data.systolic }}/{{ health_data.diastolic }}</h3>
+                </div>
+
+                <div class="result-card">
+                    🌡️ Temperature
+                    <h3>{{ health_data.temperature }} °C</h3>
+                </div>
+
+                <div class="result-card">
+                    🩸 Blood Glucose
+                    <h3>{{ health_data.glucose }} mg/dL</h3>
+                </div>
+
+                <div class="result-card">
+                    😴 Sleep
+                    <h3>{{ health_data.sleep }} Hours</h3>
+                </div>
+
+                <div class="result-card">
+                    🧠 Mood
+                    <h3>{{ health_data.mood }}</h3>
+                </div>
+
+            </div>
+
+            <p class="notice">
+                These measurements are displayed for review only.
+                No medical diagnosis has been performed.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+</body>
+</html>
